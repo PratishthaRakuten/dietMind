@@ -4,7 +4,7 @@ const bodyParser = require('body-parser');
 const cors = require('cors');
 
 const app = express();
-const port = 5000;
+const port = process.env.PORT || 5000; // Use Render's dynamic port or default to 5000
 
 // Middleware
 app.use(bodyParser.json());
@@ -96,6 +96,7 @@ const parseList = (section) => {
 };
 
 // Start the server
+
 app.listen(port, () => {
-  console.log(`Server is running on http://localhost:${port}`);
+  console.log(`Server is running on port ${port}`);
 });
