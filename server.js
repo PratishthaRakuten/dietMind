@@ -44,59 +44,10 @@ app.post('/generate-diet', async (req, res) => {
 - Processed Snacks
 `;
 
-  // Parse the mocked response
-  const parsedResponse = parseMarkdownResponse(mockLLMResponse);
-
-  console.log('Parsed Response:', parsedResponse); // Debugging: Log the parsed response
-  res.json({ data: parsedResponse });
+  res.json({ data: mockLLMResponse });
 });
 
-// Parsing function to extract data from markdown
-const parseMarkdownResponse = (markdown) => {
-  const sections = markdown.split('###').map((section) => section.trim());
-  const result = {};
-
-  sections.forEach((section) => {
-    if (section.startsWith('Breakfast')) {
-      result.breakfast = parseDishes(section);
-    } else if (section.startsWith('Lunch')) {
-      result.lunch = parseDishes(section);
-    } else if (section.startsWith('Dinner')) {
-      result.dinner = parseDishes(section);
-    } else if (section.startsWith('Recommended Foods')) {
-      result.recommendedFoods = parseList(section);
-    } else if (section.startsWith('Foods to Avoid')) {
-      result.foodsToAvoid = parseList(section);
-    }
-  });
-
-  return result;
-};
-
-// Helper function to parse dishes and their benefits
-const parseDishes = (section) => {
-  return section
-    .split('\n')
-    .slice(1)
-    .map((line) => {
-      const [dish, benefits] = line.split(':');
-      return {
-        dish: dish.replace(/^\d+\.\s\*\*/, '').replace(/\*\*$/, '').trim(),
-        benefits: benefits.trim(),
-      };
-    });
-};
-
-// Helper function to parse lists (e.g., recommended foods, foods to avoid)
-const parseList = (section) => {
-  return section
-    .split('\n')
-    .slice(1)
-    .map((item) => item.replace(/^-/, '').trim());
-};
-
 // Start the server
-
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`);
 });
