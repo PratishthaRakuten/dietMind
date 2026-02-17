@@ -2,6 +2,10 @@ require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+import path from 'path';
+import { fileURLToPath } from 'url';  
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const app = express();
 const port = process.env.PORT || 5000; // Use Render's dynamic port or default to 5000
