@@ -1,9 +1,12 @@
-require('dotenv').config();
-const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
+import dotenv from 'dotenv';
+import express from 'express';
+import bodyParser from 'body-parser';
+import cors from 'cors';
 import path from 'path';
-import { fileURLToPath } from 'url';  
+import { fileURLToPath } from 'url';
+
+dotenv.config(); // Load environment variables
+
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
@@ -14,7 +17,7 @@ const port = process.env.PORT || 5000; // Use Render's dynamic port or default t
 app.use(bodyParser.json());
 app.use(cors()); // Enable CORS
 app.use(express.json()); // Parse JSON bodies
-app.use(express.static(path.join(__dirname, 'dist'))); // Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, "dist"))); // Serve static files from the 'dist' directory
 
 // Root Route
 app.get('/', (req, res) => {
@@ -58,8 +61,9 @@ app.post('/generate-diet', async (req, res) => {
   res.json({ data: mockLLMResponse });
 });
 
-app.get("*", (req, res) => {
-  res.sendFile(path.join(__dirname, 'dist', 'index.html')); // Serve the React app for any other route});
+// Catch-all route for serving the React app
+app.get(/.*/, (req, res) => {
+  res.sendFile(path.join(__dirname, "dist", "index.html"));
 });
 
 // Start the server
