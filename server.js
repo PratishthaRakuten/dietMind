@@ -10,6 +10,11 @@ const port = process.env.PORT || 5000; // Use Render's dynamic port or default t
 app.use(bodyParser.json());
 app.use(cors()); // Enable CORS
 
+// Root Route
+app.get('/', (req, res) => {
+  res.status(200).send('Welcome to the DietMind Backend!');
+});
+
 // Health Check Endpoint
 app.get('/health', (req, res) => {
   res.status(200).json({ status: 'UP', message: 'Server is running smoothly' });
