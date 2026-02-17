@@ -9,6 +9,8 @@ const port = process.env.PORT || 5000; // Use Render's dynamic port or default t
 // Middleware
 app.use(bodyParser.json());
 app.use(cors()); // Enable CORS
+app.use(express.json()); // Parse JSON bodies
+app.use(express.static(path.join(__dirname, 'dist'))); // Serve static files from the 'public' directory
 
 // Root Route
 app.get('/', (req, res) => {
@@ -50,6 +52,10 @@ app.post('/generate-diet', async (req, res) => {
 `;
 
   res.json({ data: mockLLMResponse });
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html')); // Serve the React app for any other route});
 });
 
 // Start the server
